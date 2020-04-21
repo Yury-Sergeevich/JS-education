@@ -437,7 +437,6 @@ h6 {
     /*                  Slider Photo               */
 
     &_photo {
-        width: 48.717948717vw;
         max-width: 570px;
         max-height: 710px;
 
@@ -454,7 +453,6 @@ h6 {
     /*                Short Description             */
 
     &_shrtDescr {
-        width: 48.717948717vw;
         max-width: 570px;
 
         h3 {
@@ -469,6 +467,11 @@ h6 {
     &_bar {
         display: inline-block;
 
+        font-family: 'Montserrat', sans-serif;
+        font-size: @mainFontSize + (-1);
+
+        color: @productBarColor;
+
         .fa-star {
             cursor: pointer;
             color: @raiting;
@@ -479,19 +482,15 @@ h6 {
             }
         }
 
-
-
-        &:not(:last-child)::after {
+        & + &::before {
             content: "|";
-            margin: 0 15px;
+            margin: 0 12px;
 
             color: @productBarColor;
         }
     }
 
     &_social {
-        color: @productBarColor;
-
         i {
             transition: color .2s linear;
         }
