@@ -178,7 +178,7 @@ h6 {
 
     font-family: @buttonFont;
     font-weight: 400;
-    font-size: 15px;
+    font-size: @mainFontSize;
     color: @productBigButton;
     letter-spacing: .2em;
     text-transform: capitalize;
@@ -192,7 +192,8 @@ h6 {
 
     transition: all .2s linear;
 
-    &:hover {
+    &:hover,
+    &.active {
         color: @bgColorContetn;
         background-color: @productBigButton;
     }
@@ -439,6 +440,7 @@ h6 {
     &_photo {
         max-width: 570px;
         max-height: 710px;
+        margin-bottom: 37px;
 
         position: relative;
 
@@ -460,7 +462,7 @@ h6 {
             font-size: 18px;
             font-weight: 400;
 
-            margin-bottom: 26px;
+            margin-bottom: 28px;
         }
     }
 
@@ -471,6 +473,10 @@ h6 {
         font-size: @mainFontSize + (-1);
 
         color: @productBarColor;
+
+        .reviews {
+            margin-left: 10px;
+        }
 
         .fa-star {
             cursor: pointer;
@@ -510,7 +516,7 @@ h6 {
 
     &_price {
 
-        margin: 25px 0 44px;
+        margin: 23px 0 28px;
 
         h4 {
             display: inline-block;
@@ -554,7 +560,7 @@ h6 {
     }
 
     &_prop {
-        margin-top: 36px;
+        margin-top: 39px;
 
         ul {
             margin-top: 16px;
@@ -577,7 +583,7 @@ h6 {
     }
 
     &_custom {
-        padding-top: 46px;
+        padding-top: 23px;
         margin-bottom: 35px;
 
         &--selection {
@@ -604,7 +610,6 @@ h6 {
 
     &_big_buttons {
         .button_big {
-
             &:not(:last-child) {
                 margin-right: 10px;
             }
@@ -630,7 +635,7 @@ h6 {
                 position: relative;
                 border: none;
 
-                line-height: 60px;
+                line-height: 30px;
 
                 &:hover {
                     background-color: inherit;
@@ -674,5 +679,53 @@ h6 {
 
     &_descr {
         width: 100vw;
+        margin-bottom: 125px;
+        min-height: 75px;
+
+        &_bar {
+            margin-bottom: 26px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+
+            background-color: @bgColorHeaderFooter;
+        }
+
+        &_tab {
+            margin-bottom: 0;
+            min-width: 160px;
+            border: none;
+
+            line-height: 50px;
+            font-size: @mainFontSize + (-1);
+            letter-spacing: normal;
+
+            background-color: inherit;
+        }
+
+        &_full_information {
+            h5 {
+                margin-bottom: 13px;
+
+                text-transform: uppercase;
+                color: @navColor;
+            }
+
+            p {
+                margin-bottom: 26px;
+            }
+        }
+    }
+}
+
+.footer {
+    width: 100vw;
+    background-color: @bgColorHeaderFooter;
+    
+    .site_map {
+        max-width: @mainWidth + 40;
+        margin: 0 auto;
+        padding: 0 20px;
     }
 }

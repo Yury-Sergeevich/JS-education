@@ -74,7 +74,8 @@ h6 {
   text-transform: uppercase;
   transition: all 0.2s linear;
 }
-.button_big:hover {
+.button_big:hover,
+.button_big.active {
   color: #ffffff;
   background-color: #454647;
 }
@@ -269,6 +270,7 @@ h6 {
 .product_photo {
   max-width: 570px;
   max-height: 710px;
+  margin-bottom: 37px;
   position: relative;
 }
 .product_photo img {
@@ -282,13 +284,16 @@ h6 {
   text-transform: uppercase;
   font-size: 18px;
   font-weight: 400;
-  margin-bottom: 26px;
+  margin-bottom: 28px;
 }
 .product_bar {
   display: inline-block;
   font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   color: #989898;
+}
+.product_bar .reviews {
+  margin-left: 10px;
 }
 .product_bar .fa-star {
   cursor: pointer;
@@ -316,7 +321,7 @@ h6 {
   color: #00c8c8;
 }
 .product_price {
-  margin: 25px 0 44px;
+  margin: 23px 0 28px;
 }
 .product_price h4 {
   display: inline-block;
@@ -347,7 +352,7 @@ h6 {
   margin-bottom: 18px;
 }
 .product_prop {
-  margin-top: 36px;
+  margin-top: 39px;
 }
 .product_prop ul {
   margin-top: 16px;
@@ -364,7 +369,7 @@ h6 {
   font-size: 15px;
 }
 .product_custom {
-  padding-top: 46px;
+  padding-top: 23px;
   margin-bottom: 35px;
 }
 .product_custom--selection {
@@ -457,7 +462,7 @@ h6 {
 .product_big_buttons .button_big--compare {
   position: relative;
   border: none;
-  line-height: 60px;
+  line-height: 30px;
 }
 .product_big_buttons .button_big--compare:hover {
   background-color: inherit;
@@ -485,4 +490,40 @@ h6 {
 }
 .product_descr {
   width: 100vw;
+  margin-bottom: 125px;
+  min-height: 75px;
+}
+.product_descr_bar {
+  margin-bottom: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  background-color: #f8f8f8;
+}
+.product_descr_tab {
+  margin-bottom: 0;
+  min-width: 160px;
+  border: none;
+  line-height: 50px;
+  font-size: 14px;
+  letter-spacing: normal;
+  background-color: inherit;
+}
+.product_descr_full_information h5 {
+  margin-bottom: 13px;
+  text-transform: uppercase;
+  color: #727272;
+}
+.product_descr_full_information p {
+  margin-bottom: 26px;
+}
+.footer {
+  width: 100vw;
+  background-color: #f8f8f8;
+}
+.footer .site_map {
+  max-width: 1210px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
