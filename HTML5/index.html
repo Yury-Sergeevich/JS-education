@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+
+<body>
+    <svg style="display:none;">
+
+        <symbol id="menu" viewBox="0 0 448 512">
+            <path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"></path>
+        </symbol>
+
+        <symbol id="facebook" viewBox="0 0 320 512">
+            <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"></path>
+        </symbol>
+
+        <symbol id="rss" viewBox="0 0 448 512">
+            <path d="M128.081 415.959c0 35.369-28.672 64.041-64.041 64.041S0 451.328 0 415.959s28.672-64.041 64.041-64.041 64.04 28.673 64.04 64.041zm175.66 47.25c-8.354-154.6-132.185-278.587-286.95-286.95C7.656 175.765 0 183.105 0 192.253v48.069c0 8.415 6.49 15.472 14.887 16.018 111.832 7.284 201.473 96.702 208.772 208.772.547 8.397 7.604 14.887 16.018 14.887h48.069c9.149.001 16.489-7.655 15.995-16.79zm144.249.288C439.596 229.677 251.465 40.445 16.503 32.01 7.473 31.686 0 38.981 0 48.016v48.068c0 8.625 6.835 15.645 15.453 15.999 191.179 7.839 344.627 161.316 352.465 352.465.353 8.618 7.373 15.453 15.999 15.453h48.068c9.034-.001 16.329-7.474 16.005-16.504z"></path>
+        </symbol>
+
+        <symbol id="search" viewBox="0 0 512 512">
+            <path d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"></path>
+        </symbol>
+
+    </svg>
+
+    <div class="header_top_bar">
+        <div class="menu">
+            <span class="button">
+                <svg class="button--ico">
+                    <use xlink:href="#menu"></use>
+                </svg>
+            </span>
+            <nav>
+                <a href="#" class="button menu_link">Home</a>
+                <a href="#" class="button menu_link">News</a>
+                <a href="#" class="button menu_link">About Me</a>
+                <a href="#" class="button menu_link">Credintails</a>
+            </nav>
+        </div>
+
+        <h1 class="logo"><span>deco</span>blog</h1>
+
+        <div class="social_search">
+            <nav>
+                <span class="button">
+                    <svg class="button--ico">
+                        <use xlink:href="#rss"></use>
+                    </svg>
+                </span><span class="button">
+                    <svg class="button--ico">
+                        <use xlink:href="#facebook"></use>
+                    </svg>
+                </span>
+                <span class="button">
+                    <svg class="button--ico">
+                        <use xlink:href="#search"></use>
+                    </svg>
+                </span>
+            </nav>
+
+        </div>
+    </div>
+    <header></header>
+    <footer></footer>
+</body>
+
+</html>

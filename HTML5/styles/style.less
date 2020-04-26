@@ -1,0 +1,171 @@
+//@import url('https://fonts.googleapis.com/css2?family=Hind:wght@300;400;600;700&family=Montserrat:wght@700&family=Open+Sans&family=Baloo+Paaji+2&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Paaji+2&family=Hind:wght@300;400;600;700&family=Montserrat&display=swap');
+
+@mainWidth: 1530px;
+@headerTextColorStandart: #ffffff;
+@headerTextColorTopBar: #fefefe;
+@headerTextColorNavTopBar: #999999;
+@headerBorderColorTopBar: #3c3c3c;
+@headerBackgroundTopBar: #212429;
+
+@textFontStandart: 'Hind', sans-serif;
+@textSizeStandart: 15px;
+@textWeightStandart: 300;
+@textColorStandart: #464646;
+
+@textFontH: 'Montserrat', sans-serif;
+@textSizeH: 1.33333333333rem; //20px
+@textWeightH: 700;
+@textColorH: #212121;
+
+@textFontOther: 'Baloo Paaji 2', cursive;
+@textSizeH: .93333333333rem; //14px
+@textWeightOther: 400;
+@textColorOther: #999999;
+
+
+*,
+*::after,
+*::before {
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+}
+
+html {
+    font-family: @textFontStandart;
+    font-weight: @textWeightStandart;
+    font-size: @textSizeStandart;
+    color: @textColorStandart;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: @textFontH;
+    font-weight: @textWeightH;
+    font-size: @textSizeH;
+    color: @textColorH;
+}
+
+a {
+    color: inherit;
+}
+
+.button {
+    cursor: pointer;
+    text-decoration: none;
+
+    transition: all .2s linear;
+    text-align: center;
+
+    &--ico {
+        width: 0.93333333333rem;
+        height: 1.33333333333rem;
+
+        fill: @headerTextColorTopBar;
+
+        vertical-align: middle;
+
+        transition: all .2s linear;
+    }
+
+    &:hover {
+        color: @headerTextColorNavTopBar;
+
+        svg {
+            fill: @headerTextColorNavTopBar;
+        }
+    }
+}
+
+.header_top_bar {
+    max-width: @mainWidth;
+    margin: 0 auto;
+    height: 3.66666666667rem;
+    overflow-y: hidden;
+    line-height: 3.66666666667rem;
+    position: sticky;
+    top: 0;
+
+    display: flex;
+    justify-content: space-between;
+
+    background-color: @headerBackgroundTopBar;
+
+    font-size: 1.2rem;
+    color: @headerTextColorTopBar;
+
+    .button {
+        display: inline-block;
+        width: 3.66666666667rem;
+        height: 3.66666666667rem;
+
+        border-left: 1px solid @headerBorderColorTopBar;
+        border-right: 1px solid @headerBorderColorTopBar;
+
+        & + .button {
+            border-left: none;
+        }
+    }
+
+    .menu {
+        position: relative;
+        width: 3.66666667rem;
+
+        &:hover {
+            nav {
+                display: flex;
+                left: 3.6rem;
+            }
+        }
+
+        & > button {
+            position: absolute;
+        }
+
+        nav {
+            display: none;
+
+            position: absolute;
+            top: 0;
+            left: -100%;
+
+            background-color: @headerBackgroundTopBar;
+
+            .button {
+                width: auto;
+                padding: 0 2rem;
+            }
+        }
+    }
+
+    .logo {
+        color: @headerTextColorTopBar;
+        font-size: 1.47666666667rem;
+        font-family: @textFontStandart;
+        font-weight: 700;
+
+        letter-spacing: .2rem;
+        text-transform: uppercase;
+
+        cursor: pointer;
+
+        span {
+            font-size: 1.7rem;
+            font-family: @textFontOther;
+            font-weight: 400;
+        }
+    }
+}
+
+header {
+    background: rgb(255, 255, 255);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(84, 84, 84, 1) 100%);
+    height: 3000px;
+}
