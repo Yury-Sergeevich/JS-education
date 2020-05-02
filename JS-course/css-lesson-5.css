@@ -1,0 +1,67 @@
+a {
+    display: block;
+    max-width: 25em;
+    padding: .25rem;
+    border: 1px solid black;
+
+    text-decoration: none;
+    text-align: center;
+    line-height: 3em;
+    color: black;
+
+    transition: all .2s linear;
+}
+
+a:hover {
+    background-color: #ebebeb;
+}
+
+.chessTable {
+    display: inline-block;
+    border: 1px solid black;
+    border-collapse: collapse;
+
+    margin: 2rem;
+}
+
+.cell {
+    width: 2em;
+    height: 2em;
+
+    text-align: center;
+    vertical-align: middle;
+}
+
+.cell--white {
+    background-color: #ebebeb;
+}
+
+.cell--black {
+    background-color: darkgray;
+}
+
+.sideBar {
+    padding: .25rem;
+
+    text-align: center;
+    vertical-align: middle;
+
+    font-size: .5em;
+
+}
+
+.sideBar--top {
+    border-bottom: 1px solid black;
+}
+
+.sideBar--right {
+    border-left: 1px solid black;
+}
+
+.sideBar--bottom {
+    border-top: 1px solid black;
+}
+
+.sideBar--left {
+    border-right: 1px solid black;
+}
