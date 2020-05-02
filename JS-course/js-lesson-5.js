@@ -143,19 +143,7 @@ function chessBoardFillFigures(num) {
     cell[59 + num].innerHTML = "&#9813;";
     cell[60 + num].innerHTML = "&#9812;";
 
-    // по какой -то причине вылетате ошибка undefined, возможно не успевает прогрузиться
-    //    for (var ind = 48 + num; ind < 56 + num; ind++) {
-    //        console.log(ind);
-    //        cell[ind + num].innerHTML = "&#9817;";
-    //    }
-
-    cell[48 + num].innerHTML = "&#9817;";
-    cell[49 + num].innerHTML = "&#9817;";
-    cell[50 + num].innerHTML = "&#9817;";
-    cell[51 + num].innerHTML = "&#9817;";
-    cell[52 + num].innerHTML = "&#9817;";
-    cell[53 + num].innerHTML = "&#9817;";
-    cell[54 + num].innerHTML = "&#9817;";
-    cell[55 + num].innerHTML = "&#9817;";
-
+    for (var ind = 48 + num; ind < 56 + num; ind++) {
+        cell[ind].innerHTML = "&#9817;";
+    }
 }
