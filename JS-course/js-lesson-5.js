@@ -43,20 +43,8 @@ function chessBoardInit() {
                 continue;
             }
 
-            // шахматные клетки с класом, который будем использовать для их идентификации
-            if ((rows % 2 == 0) && (colums % 2 == 0)) {
-                colum.className = "cell cell--white";
-                continue;
-            }
-            if ((rows % 2 == 0) && (colums & 2 != 0)) {
-                colum.className = "cell cell--black";
-                continue;
-            }
-            if ((rows % 2 != 0) && (colums % 2 == 0)) {
-                colum.className = "cell cell--black";
-                continue;
-            }
-            colum.className = "cell cell--white";
+            // шахматные клетки с класом, который будем использовать для их идентификации и окраски
+            colum.className = "cell";
         }
     }
     // заполняем доску легендой

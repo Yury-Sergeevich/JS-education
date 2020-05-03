@@ -36,12 +36,20 @@ caption {
     vertical-align: middle;
 }
 
-.cell--white {
+tr:nth-child(even) .cell:nth-child(odd) {
+    background-color: darkgray;
+}
+
+tr:nth-child(even) .cell:nth-child(even) {
     background-color: #ebebeb;
 }
 
-.cell--black {
+tr:nth-child(odd) .cell:nth-child(even) {
     background-color: darkgray;
+}
+
+tr:nth-child(odd) .cell:nth-child(odd) {
+    background-color: #ebebeb;
 }
 
 .sideBar {
