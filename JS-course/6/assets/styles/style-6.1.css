@@ -1,0 +1,12 @@
+.picture--small {
+    display: inline-block;
+}
+
+.picture--small img {
+    height: 100px;
+}
+
+
+.picture--small + .picture--small {
+    margin-left: 2rem;
+}

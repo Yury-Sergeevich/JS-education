@@ -16,7 +16,7 @@ d = b++;        // -> d = b;        d = 1
                 //    b += 1;       b = 2
 
 c = (2 + ++a);  // -> a += 1;       a = 3
-                //    c = 2 + a;    c = 5  
+                //    c = 2 + a;    c = 5
 
 d = (2 + b++);  // -> d = 2 + b;    d = 4
                 //    b += 1;       b = 3
@@ -42,17 +42,17 @@ console.log(x);       // 5
 console.log('Task #3')
 
 function calculate (num_1, num_2) {
-    
+
     if (num_1 < 0 && num_2 < 0) {
         console.log('The numbers are negative');
         return num_1 * num_2;
         }
-    
+
     if (num_1 >= 0 && num_2 >= 0) {
         console.log('Numbers are positive');
         return num_1 - num_2;
         }
-    
+
     console.log('Numbers have opposite signs');
     return num_1 + num_2;
 }
@@ -185,7 +185,7 @@ function pow(num, degree) {
     if (degree == 0)    return 1;
     if (degree == 1)    return num;
     if (degree == -1)   return 1 / num;
-    
+
     if (degree < 0)     return 1 / num * pow(num, ++degree);
     return num * pow(num, --degree);
 }
