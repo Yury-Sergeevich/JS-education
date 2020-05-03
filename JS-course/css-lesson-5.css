@@ -24,6 +24,10 @@ a:hover {
     margin: 2rem;
 }
 
+caption {
+    padding: .5rem;
+}
+
 .cell {
     width: 2em;
     height: 2em;
@@ -41,7 +45,7 @@ a:hover {
 }
 
 .sideBar {
-    padding: .25rem;
+    padding: .5rem;
 
     text-align: center;
     vertical-align: middle;
@@ -52,10 +56,12 @@ a:hover {
 
 .sideBar--top {
     border-bottom: 1px solid black;
+    transform: rotate(180deg);
 }
 
 .sideBar--right {
     border-left: 1px solid black;
+    transform: rotate(180deg);
 }
 
 .sideBar--bottom {
