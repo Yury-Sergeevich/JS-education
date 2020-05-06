@@ -2,6 +2,8 @@
 
 window.onload = function () {
     sliderInit();
+    cartInit();
+    offerInit();
 };
 
 var gallery = [{
@@ -29,13 +31,11 @@ function sliderInit() {
     var slider = document.getElementsByClassName("slider"),
         sliderButtons = document.getElementsByClassName("angle");
     gallery.forEach(function (elem) {
-        var picture = document.createElement("img");
+        var picture = slider[0].appendChild(document.createElement("img"));
         picture.className = "picture--small";
         picture.src = elem.smallImgWay;
         picture.alt = elem.alt;
         picture.addEventListener("click", changeBigPictureProperties);
-
-        slider[0].appendChild(picture);
     });
 
     sliderButtons[0].addEventListener("click", function () {
@@ -46,6 +46,7 @@ function sliderInit() {
     });
 }
 
+// код слайдера не оптимален, во время выполнения второго задания оформлен лучше
 function changeBigPictureProperties(action) {
     // ищем активный слайд
     var smallPictureHovered = document.getElementsByClassName("picture--small hovered"),
