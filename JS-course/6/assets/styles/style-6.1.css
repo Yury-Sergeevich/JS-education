@@ -1,0 +1,66 @@
+.galery-wrapper {
+    margin: 3rem;
+    position: relative;
+
+    text-align: center;
+}
+
+.main-photo {
+    height: 300px;
+}
+
+.picture--big {
+    max-height: 300px;
+    max-width: 600px;
+}
+
+.angle {
+    display: block;
+    height: 5rem;
+    margin: auto;
+    padding: 1rem;
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 2;
+
+    fill: #393939;
+
+    transition: all .2s linear;
+}
+
+.angle:hover {
+    fill: #8b8b8b;
+}
+
+.angle--left {
+    left: 0;
+}
+
+.angle--right {
+    right: 0;
+    transform: rotate(180deg);
+}
+
+.slider {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid grey;
+
+    text-align: center;
+}
+
+.picture--small {
+    display: inline-block;
+    height: 100px;
+
+}
+
+.picture--small + .picture--small {
+    margin-left: 1rem;
+}
+
+.hovered {
+    box-shadow: 0 0 1rem #393939;
+}
