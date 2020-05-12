@@ -30,3 +30,7 @@ td {
     height: 25px;
     border: 1px solid black;
 }
+
+.attacked {
+    background-color: grey;
+}
