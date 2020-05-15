@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        "use strict";
+
+        function sum(a, b) {
+            return a + b;
+        }
+
+        function curry(functn) {
+            return function curried(...args) {
+                if (args.length >= functn.length) return functn.apply(null, args);
+                else return function(...args2) {
+                    return curried.apply(null, args.concat(args2));
+                };
+            };
+        }
+
+
+        let carriedSum = curry(sum); // используем _.curry из lodash
+        var carriedSum_2 = sum.bind("2", null);
+
+        console.log(carriedSum(1, 2)); // 3, можно вызывать как обычно
+        console.log(carriedSum(1)(2)); // 3, а можно частично
+
+        console.log(carriedSum_2(3)); // 3, а можно частично
+        console.log(carriedSum_2(4)); // 3, а можно частично
+
+
+        function averegeScor(...score) {
+            var totalScore = score.reduce((prev, current) => {
+                return prev += current;
+            });
+
+            this.avrgScore = totalScore / score.length;
+        }
+
+    </script>
+</body>
+
+</html>
