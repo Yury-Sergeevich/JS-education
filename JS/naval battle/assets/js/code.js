@@ -9,43 +9,43 @@ function Player() {
             name: "linkor",
             healthPoints: 4,
             fields: []
-    }, {
+        }, {
             name: "cruiser",
             healthPoints: 3,
             fields: []
-    }, {
+        }, {
             name: "cruiser",
             healthPoints: 3,
             fields: []
-    }, {
+        }, {
             name: "destroyer",
             healthPoints: 2,
             fields: []
-    }, {
+        }, {
             name: "destroyer",
             healthPoints: 2,
             fields: []
-    }, {
+        }, {
             name: "destroyer",
             healthPoints: 2,
             fields: []
-    }, {
+        }, {
             name: "torpedoBoats",
             healthPoints: 1,
             fields: []
-    }, {
+        }, {
             name: "torpedoBoats",
             healthPoints: 1,
             fields: []
-    }, {
+        }, {
             name: "torpedoBoats",
             healthPoints: 1,
             fields: []
-    }, {
+        }, {
             name: "torpedoBoats",
             healthPoints: 1,
             fields: []
-    }]
+        }]
 }
 var human = new Player(),
     ai = new Player(),
@@ -61,13 +61,14 @@ function gameInit() {
 
     playerInit(ai, "ai");
 
-    if (!playerMove) aiMove();
+    if (!playerMove) aiEngine.makeMove();
 }
 
 function createBattleField() {
 
     var fieldForPlay = [document.getElementsByClassName("game-wrapper")[0].appendChild(document.createElement("table")),
-        document.getElementsByClassName("game-wrapper")[0].appendChild(document.createElement("table"))];
+        document.getElementsByClassName("game-wrapper")[0].appendChild(document.createElement("table"))
+    ];
 
     fieldForPlay.forEach(function (field, index) {
         field.classList.add("field");
@@ -131,14 +132,15 @@ function playerInit(player, playerName) {
                 if (playerName == "human") cells[pos].innerHTML = "X";
                 unposiblePositions.push(pos);
 
-                    [pos < 10 ? pos : pos % 10 == 0 ? pos : pos - 11, // top left
-                     pos < 10 ? pos : pos - 10, // top middle
-                     pos < 10 ? pos : pos % 10 == 9 ? pos : pos - 9, // top right
-                     pos % 10 == 9 ? pos : pos + 1, // middle right
-                     pos >= 90 ? pos : pos % 10 == 9 ? pos : pos + 11, // bottom right
-                     pos >= 90 ? pos : pos + 10, // bottom middle
-                     pos >= 90 ? pos : pos % 10 == 0 ? pos : pos + 9, // bottomleft
-                     pos % 10 == 0 ? pos : pos - 1].forEach(function (toInclide) {
+                [pos < 10 ? pos : pos % 10 == 0 ? pos : pos - 11, // top left
+                    pos < 10 ? pos : pos - 10, // top middle
+                    pos < 10 ? pos : pos % 10 == 9 ? pos : pos - 9, // top right
+                    pos % 10 == 9 ? pos : pos + 1, // middle right
+                    pos >= 90 ? pos : pos % 10 == 9 ? pos : pos + 11, // bottom right
+                    pos >= 90 ? pos : pos + 10, // bottom middle
+                    pos >= 90 ? pos : pos % 10 == 0 ? pos : pos + 9, // bottomleft
+                    pos % 10 == 0 ? pos : pos - 1
+                ].forEach(function (toInclide) {
                     if (!unposiblePositions.includes(toInclide)) {
                         unposiblePositions.push(toInclide);
                     }
@@ -182,6 +184,8 @@ function isPosiblePosToInsert(direction, lenght, index) {
     }
 }
 
+var aiEngine = new aiEngine();
+
 function move(event) {
     //!!! добавить запись, не твой ход
     if (!playerMove) return;
@@ -197,21 +201,42 @@ function move(event) {
     //!!! добавить запись, что игрок попал
     if (attackPos.call(ai, rowInd, cellInd)) playerMove = true;
 
-    if (!playerMove) aiMove();
+    if (!playerMove) aiEngine.makeMove();
 }
 
-function aiMove() {
-    var error = 0
-    while (error < 4) {
-        var randomPos = generateRandomPosition(human.fieldAttacked.length - 1),
-            rowInd = human.fieldAttacked[randomPos] / 10 | 0,
-            cellInd = human.fieldAttacked[randomPos] % 10;
+function aiEngine() {
 
-        if (attackPos.call(human, rowInd, cellInd)) {
-            playerMove = false;
-            aiMove();
-        } else playerMove = true;
-        break;
+    this.boardToAttack = {
+        finded: false,
+        directionPos: [],
+        direction: undefined,
+        nextPosition: undefined,
+        generateNextPos: function (atackSucsess) {
+            // gen possible directions and positions
+        }
+    };
+
+    this.makeMove = function () {
+        if (!this.boardToAttack.finded) {
+            this.atack();
+            return;
+        }
+    }
+
+    this.atack = function (randomPos = generateRandomPosition(human.fieldAttacked.length - 1)) {
+        var error = 0
+        while (error < 4) {
+            var rowInd = human.fieldAttacked[randomPos] / 10 | 0,
+                cellInd = human.fieldAttacked[randomPos] % 10;
+
+            if (attackPos.call(human, rowInd, cellInd)) {
+                playerMove = false;
+                if (!this.boardToAttack.finded) this.boardToAttack.generateNextPos();
+                this.makeMove();
+                return true;
+            } else playerMove = true;
+            break;
+        }
     }
 }
 
@@ -243,13 +268,14 @@ function attackPos(rowInd, cellInd) {
 function destroyBoard(boardInd) {
     this.boards[boardInd].fields.forEach((boardPos) => {
         [boardPos < 10 ? boardPos : boardPos % 10 == 0 ? boardPos : boardPos - 11, // top left
-         boardPos < 10 ? boardPos : boardPos - 10, // top middle
-         boardPos < 10 ? boardPos : boardPos % 10 == 9 ? boardPos : boardPos - 9, // top right
-         boardPos % 10 == 9 ? boardPos : boardPos + 1, // middle right
-         boardPos >= 90 ? boardPos : boardPos % 10 == 9 ? boardPos : boardPos + 11, // bottom right
-         boardPos >= 90 ? boardPos : boardPos + 10, // bottom middle
-         boardPos >= 90 ? boardPos : boardPos % 10 == 0 ? boardPos : boardPos + 9, // bottomleft
-         boardPos % 10 == 0 ? boardPos : boardPos - 1].forEach((position) => {
+            boardPos < 10 ? boardPos : boardPos - 10, // top middle
+            boardPos < 10 ? boardPos : boardPos % 10 == 9 ? boardPos : boardPos - 9, // top right
+            boardPos % 10 == 9 ? boardPos : boardPos + 1, // middle right
+            boardPos >= 90 ? boardPos : boardPos % 10 == 9 ? boardPos : boardPos + 11, // bottom right
+            boardPos >= 90 ? boardPos : boardPos + 10, // bottom middle
+            boardPos >= 90 ? boardPos : boardPos % 10 == 0 ? boardPos : boardPos + 9, // bottomleft
+            boardPos % 10 == 0 ? boardPos : boardPos - 1
+        ].forEach((position) => {
             if (this.fieldAttacked.includes(position)) {
                 document.getElementsByClassName(this.name + " rc-" + (position / 10 | 0) + "-" + position % 10)[0].classList.add("attacked");
                 this.fieldAttacked.splice(this.fieldAttacked.indexOf(position), 1);
