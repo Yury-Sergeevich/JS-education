@@ -3,7 +3,8 @@
 window.onload = gameInit;
 
 function Player() {
-    this.fieldAttacked = [],
+    this.name = "human",
+        this.fieldAttacked = [],
         this.boards = [{
             name: "linkor",
             healthPoints: 4,
@@ -49,6 +50,8 @@ function Player() {
 var human = new Player(),
     ai = new Player(),
     playerMove = Math.random() < .5 ? true : false;
+ai.name = "ai";
+
 
 function gameInit() {
 
@@ -98,6 +101,11 @@ function createBattleField() {
             }
         }
     });
+
+    for (var i = 0; i < 100; i++) {
+        human.fieldAttacked.push(i);
+        ai.fieldAttacked.push(i);
+    }
 }
 
 var unposiblePositions = [];
@@ -143,8 +151,8 @@ function playerInit(player, playerName) {
     positionToFill = null;
 }
 
-function generateRandomPosition() {
-    return Math.random() * 100 | 0;
+function generateRandomPosition(max = 100) {
+    return Math.random() * max | 0;
 }
 
 function generateRandomDirection() {
@@ -179,97 +187,73 @@ function move(event) {
     if (!playerMove) return;
 
     //!!! добавить запись, что клетка обстреляна
-    if (event.target.classList.contains("attacked")) return;
+    if (this.classList.contains("attacked")) return;
+
+    playerMove = false;
 
     var rowInd = Number(this.classList[2].split("-")[1]),
         cellInd = Number(this.classList[2].split("-")[2]);
 
-    //!!! добавить запись, что игрок попал мимо
-    if (!attackPos(rowInd, cellInd)) console.log("мимо");
+    //!!! добавить запись, что игрок попал
+    if (attackPos.call(ai, rowInd, cellInd)) playerMove = true;
 
-    playerMove = false;
     if (!playerMove) aiMove();
-
-    console.log(human.fieldAttacked);
-    console.log(ai.fieldAttacked);
-
 }
 
 function aiMove() {
-    while (true) {
-        var randomPos = generateRandomPosition(),
-            rowInd = randomPos / 10 | 0,
-            cellInd = randomPos % 10;
+    var error = 0
+    while (error < 4) {
+        var randomPos = generateRandomPosition(human.fieldAttacked.length - 1),
+            rowInd = human.fieldAttacked[randomPos] / 10 | 0,
+            cellInd = human.fieldAttacked[randomPos] % 10;
 
-        if (human.fieldAttacked.includes(randomPos) || document.getElementsByClassName("human rc-" + rowInd + "-" + cellInd)[0].classList.contains("attacked")) continue;
-
-        attackPos(rowInd, cellInd);
-
+        if (attackPos.call(human, rowInd, cellInd)) {
+            playerMove = false;
+            aiMove();
+        } else playerMove = true;
         break;
     }
-
-    playerMove = true;
-
 }
 
 function attackPos(rowInd, cellInd) {
-    var boardsForCheck = playerMove ? ai.boards : human.boards,
-        position = rowInd * 10 + cellInd,
+    var position = rowInd * 10 + cellInd,
         boardInd = 0,
         boardFinded = false;
 
-    for (boardInd; boardInd < boardsForCheck.length; boardInd++) {
-        if (boardsForCheck[boardInd].fields.includes(position)) {
+    for (boardInd; boardInd < this.boards.length; boardInd++) {
+        if (this.boards[boardInd].fields.includes(position)) {
             boardFinded = true;
             break;
         }
     }
 
-    var cell = undefined;
-    if (playerMove) cell = document.getElementsByClassName("ai" + " rc-" + rowInd + "-" + cellInd)[0];
-    if (!playerMove) cell = document.getElementsByClassName("human" + " rc-" + rowInd + "-" + cellInd)[0];
+    this.fieldAttacked.splice(this.fieldAttacked.indexOf(position), 1);
+
+    var cell = document.getElementsByClassName(this.name + " rc-" + rowInd + "-" + cellInd)[0];
     cell.classList.add("attacked");
 
-    if (playerMove) {
-        ai.fieldAttacked.push(position);
+    if (!boardFinded) return false;
+    cell.innerHTML = "X";
 
-        if (!boardFinded) return false;
-        cell.innerHTML = "X";
-        ai.boards[boardInd].healthPoints--;
-        if (ai.boards[boardInd].healthPoints == 0) destroyBoard("ai", boardInd);
-    }
-
-    if (!playerMove) {
-        human.fieldAttacked.push(position);
-
-        if (!boardFinded) return false;
-        human.boards[boardInd].healthPoints--;
-        if (human.boards[boardInd].healthPoints == 0) destroyBoard("human", boardInd);
-    }
-
+    this.boards[boardInd].healthPoints--;
+    if (this.boards[boardInd].healthPoints == 0) destroyBoard.call(this, boardInd);
     return true;
 }
 
-function destroyBoard(player, boardInd) {
-    var boardPos = playerMove ? ai.boards[boardInd].fields : human.boards[boardInd].fields;
-
-    var positionToMark = [];
-    boardPos.forEach(function (pos) {
-        [pos < 10 ? pos : pos % 10 == 0 ? pos : pos - 11, // top left
-         pos < 10 ? pos : pos - 10, // top middle
-         pos < 10 ? pos : pos % 10 == 9 ? pos : pos - 9, // top right
-         pos % 10 == 9 ? pos : pos + 1, // middle right
-         pos >= 90 ? pos : pos % 10 == 9 ? pos : pos + 11, // bottom right
-         pos >= 90 ? pos : pos + 10, // bottom middle
-         pos >= 90 ? pos : pos % 10 == 0 ? pos : pos + 9, // bottomleft
-         pos % 10 == 0 ? pos : pos - 1].forEach(function (element) {
-            if (!positionToMark.includes(element)) positionToMark.push(element);
+function destroyBoard(boardInd) {
+    this.boards[boardInd].fields.forEach((boardPos) => {
+        [boardPos < 10 ? boardPos : boardPos % 10 == 0 ? boardPos : boardPos - 11, // top left
+         boardPos < 10 ? boardPos : boardPos - 10, // top middle
+         boardPos < 10 ? boardPos : boardPos % 10 == 9 ? boardPos : boardPos - 9, // top right
+         boardPos % 10 == 9 ? boardPos : boardPos + 1, // middle right
+         boardPos >= 90 ? boardPos : boardPos % 10 == 9 ? boardPos : boardPos + 11, // bottom right
+         boardPos >= 90 ? boardPos : boardPos + 10, // bottom middle
+         boardPos >= 90 ? boardPos : boardPos % 10 == 0 ? boardPos : boardPos + 9, // bottomleft
+         boardPos % 10 == 0 ? boardPos : boardPos - 1].forEach((position) => {
+            if (this.fieldAttacked.includes(position)) {
+                document.getElementsByClassName(this.name + " rc-" + (position / 10 | 0) + "-" + position % 10)[0].classList.add("attacked");
+                this.fieldAttacked.splice(this.fieldAttacked.indexOf(position), 1);
+            }
         });
-    });
-
-    positionToMark.forEach(function (pos) {
-        var cell = document.getElementsByClassName(player + " rc-" + (pos / 10 | 0) + "-" + pos % 10)[0];
-
-        if (!cell.classList.contains("attacked")) cell.classList.add("attacked");
     });
 }
