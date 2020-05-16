@@ -73,7 +73,9 @@ function createBattleField() {
     fieldForPlay.forEach(function (field, index) {
         field.classList.add("field");
 
-        var rowLegend = ["", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", ""];
+        // var rowLegend = ["", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", ""];
+        var rowLegend = ["", 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, ""];
+
 
         for (var rowInd = 0; rowInd < 11; rowInd++) {
             var fieldRow = field.insertRow();
@@ -86,7 +88,7 @@ function createBattleField() {
                 }
 
                 if (colInd == 0) {
-                    fieldCell.innerHTML = rowInd;
+                    fieldCell.innerHTML = rowLegend[rowInd];
                     continue;
                 }
 
@@ -208,33 +210,116 @@ function aiEngine() {
 
     this.boardToAttack = {
         finded: false,
+        startedPos: undefined,
+        // 1, 3 - left / right
+        // 0, 2 - up / down
         directionPos: [],
         direction: undefined,
         nextPosition: undefined,
-        generateNextPos: function (atackSucsess) {
-            // gen possible directions and positions
+        generateNextPos: function (sucsessAtack) {
+            while (true) {
+                function newPos(direction) {
+                    switch (direction) {
+                        case 0:
+                            if (this.nextPosition - 10 < 0) return false;
+                            if (!human.fieldAttacked.includes(this.nextPosition - 10)) return false;
+
+                            this.nextPosition -= 10;
+                            break;
+
+                        case 1:
+                            if (this.nextPosition % 10 + 1 > 9) return false;
+                            if (!human.fieldAttacked.includes(++this.nextPosition)) return false;
+                            break;
+
+                        case 2:
+                            if (this.nextPosition + 10 >= 100) return false;
+                            if (!human.fieldAttacked.includes(this.nextPosition + 10)) return false;
+                            this.nextPosition += 10;
+                            break;
+
+                        case 3:
+                            if (this.nextPosition % 10 - 1 < 0) return false;
+                            if (!human.fieldAttacked.includes(--this.nextPosition)) return false;
+                            break;
+                        default:
+                            this.finded = false;
+                            this.startedPos = undefined;
+                            this.directionPos = [];
+                            this.direction = undefined;
+                            this.nextPosition = undefined;
+                    }
+                    return true;
+                }
+                // gen possible directions and positions
+                if (sucsessAtack == undefined) {
+                    this.startedPos = arguments[1];
+                    this.directionPos = [0, 1, 2, 3];
+                    this.nextPosition = this.startedPos;
+                    this.generateNextPos(true);
+                    return;
+                }
+
+                if (!sucsessAtack) {
+                    this.directionPos.splice(this.directionPos.indexOf(this.direction), 1);
+                    this.nextPosition = this.startedPos;
+                    this.direction = this.directionPos[Math.random() * this.direction.lenght | 0];
+                }
+
+                if (sucsessAtack) {
+                    switch (this.direction) {
+                        case 0:
+                        case 2:
+                            if (this.directionPos.includes(1)) this.directionPos.splice(this.directionPos.indexOf(1), 1);
+                            if (this.directionPos.includes(3)) this.directionPos.splice(this.directionPos.indexOf(3), 1);
+                            break;
+                        case 1:
+                        case 3:
+                            if (this.directionPos.includes(0)) this.directionPos.splice(this.directionPos.indexOf(0), 1);
+                            if (this.directionPos.includes(2)) this.directionPos.splice(this.directionPos.indexOf(2), 1);
+                            break;
+                        default:
+                            this.direction = Math.random() * 4 | 0;
+                            break;
+                    }
+                }
+                if (newPos.call(this, this.direction)) {
+                    return;
+                }
+                sucsessAtack = false;
+            }
         }
     };
 
     this.makeMove = function () {
-        if (!this.boardToAttack.finded) {
-            this.atack();
+        if (this.boardToAttack.finded) {
+            var posInd = human.fieldAttacked.indexOf(this.boardToAttack.nextPosition);
+            this.atack(posInd);
             return;
         }
+        this.atack();
     }
 
-    this.atack = function (randomPos = generateRandomPosition(human.fieldAttacked.length - 1)) {
-        var error = 0
+    this.atack = function (randomInd = generateRandomPosition(human.fieldAttacked.length - 1)) {
+        var error = 0;
         while (error < 4) {
-            var rowInd = human.fieldAttacked[randomPos] / 10 | 0,
-                cellInd = human.fieldAttacked[randomPos] % 10;
+            var rowInd = human.fieldAttacked[randomInd] / 10 | 0,
+                cellInd = human.fieldAttacked[randomInd] % 10;
 
             if (attackPos.call(human, rowInd, cellInd)) {
                 playerMove = false;
-                if (!this.boardToAttack.finded) this.boardToAttack.generateNextPos();
+
+                if (!this.boardToAttack.finded) {
+                    this.boardToAttack.finded = true;
+                    this.boardToAttack.generateNextPos(undefined, rowInd * 10 + cellInd);
+                } else this.boardToAttack.generateNextPos(true);
+
                 this.makeMove();
                 return true;
-            } else playerMove = true;
+            } else {
+                if (this.boardToAttack.finded) this.boardToAttack.generateNextPos(false);
+                playerMove = true;
+            }
             break;
         }
     }
