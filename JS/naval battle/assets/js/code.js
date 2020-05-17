@@ -98,8 +98,6 @@ function createBattleField() {
                     fieldCell.addEventListener("click", move);
                 }
 
-                // можно не присваить класс с номером строки/столбца и работать с ecent.path...
-                // но при если будет создана вложенность, код усложниьтся
                 fieldCell.classList.add("cell", "rc-" + (rowInd - 1) + "-" + (colInd - 1));
             }
         }
@@ -208,6 +206,8 @@ function move(event) {
 
 function aiEngine() {
 
+    // служебный объект для поиска позии для атаки
+    // в случаях, когда мы попали в корабль
     this.boardToAttack = {
         finded: false,
         startedPos: undefined,
@@ -217,13 +217,15 @@ function aiEngine() {
         direction: undefined,
         nextPosition: undefined,
         generateNextPos: function (sucsessAtack) {
+            // перебираем все направления атаки
+            // если таких нет, обнуляем объект - кораблю уничтожен
+            // или возникла какая-то ошибка
             while (true) {
                 function newPos(direction) {
                     switch (direction) {
                         case 0:
                             if (this.nextPosition - 10 < 0) return false;
                             if (!human.fieldAttacked.includes(this.nextPosition - 10)) return false;
-
                             this.nextPosition -= 10;
                             break;
 
@@ -231,13 +233,11 @@ function aiEngine() {
                             if (this.nextPosition % 10 + 1 > 9) return false;
                             if (!human.fieldAttacked.includes(++this.nextPosition)) return false;
                             break;
-
                         case 2:
                             if (this.nextPosition + 10 >= 100) return false;
                             if (!human.fieldAttacked.includes(this.nextPosition + 10)) return false;
                             this.nextPosition += 10;
                             break;
-
                         case 3:
                             if (this.nextPosition % 10 - 1 < 0) return false;
                             if (!human.fieldAttacked.includes(--this.nextPosition)) return false;
@@ -251,7 +251,7 @@ function aiEngine() {
                     }
                     return true;
                 }
-                // gen possible directions and positions
+
                 if (sucsessAtack == undefined) {
                     this.startedPos = arguments[1];
                     this.directionPos = [0, 1, 2, 3];
@@ -289,8 +289,10 @@ function aiEngine() {
                 sucsessAtack = false;
             }
         }
-    };
+    }
 
+    // делаем ход, в зависимости от ситуации и сложности игры
+    // рандомно обстреливаем клетки - 0 сложность
     this.makeMove = function () {
         if (this.boardToAttack.finded) {
             var posInd = human.fieldAttacked.indexOf(this.boardToAttack.nextPosition);
@@ -300,9 +302,9 @@ function aiEngine() {
         this.atack();
     }
 
+    // атака с проверкой на попадания 
     this.atack = function (randomInd = generateRandomPosition(human.fieldAttacked.length - 1)) {
-        var error = 0;
-        while (error < 4) {
+        while (true) {
             var rowInd = human.fieldAttacked[randomInd] / 10 | 0,
                 cellInd = human.fieldAttacked[randomInd] % 10;
 
@@ -325,6 +327,7 @@ function aiEngine() {
     }
 }
 
+// обобщенная атака для игрока и аи
 function attackPos(rowInd, cellInd) {
     var position = rowInd * 10 + cellInd,
         boardInd = 0,
